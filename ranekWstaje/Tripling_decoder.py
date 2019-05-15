@@ -4,6 +4,7 @@ def tripling_decode():
         with open("DataRecived.txt",'w') as output:   #sys.argv[2]
             while True:
                 triple = input.read(3)
+                #triple.strip('\n')      #dziwne cos co ma pozbyc sie \n
                 if not triple: break
                 ones = triple.count('1')
                 if ones >= 2:

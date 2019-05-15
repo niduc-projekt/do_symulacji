@@ -14,6 +14,9 @@ if(userInputData> 7):       #7000 #7983
     iter=0
     with open("AllDataGenerated.txt", 'w') as mainInput:
         with open("AllDataRecived.txt", 'w') as mainOutput:
+            packet_size_before=0
+            packet_size_after=0
+            packet_overflow=0
             while (iter < userInputData):
                     generator.generate_f(packet_size, True)
                     with open("DataGenerated.txt", 'r') as small_input:
@@ -26,11 +29,13 @@ if(userInputData> 7):       #7000 #7983
                     #dodaj paczke do calosci danych AllDataGenerated.txt
 
 
-                    bch_fg.part_1()
+              #      bch_fg.part_1()
+                    Tripling_codder.tripling_code()
                     #Channel.passing()
                     #BSC_Channel.passing(0.06)
-                    Gilbert_Channel.passing(0.10, 0.1, 0, 0.5)
-                    bch_fg.part_2()
+                    Gilbert_Channel.passing(0.00, 0.1, 0, 0.5)
+                    Tripling_decoder.tripling_decode()
+              #      bch_fg.part_2()
 
 
                     #dodaj plik DataRecived do danych AllDataRecived.txt
@@ -42,10 +47,29 @@ if(userInputData> 7):       #7000 #7983
                                 mainOutput.write(bitX)
                     iter += packet_size
 
+                    #koncze obrabiac jedna paczke
+                    ResultsTable.scoresPacket()
+                    with open("StatsOfOnePacket.txt", 'r') as packet_stats:
+                        #numb=packet_stats.read(1)
+                        numb=packet_stats.readline()
+                        packet_size_before=numb
+                        #numb = packet_stats.read(1) #zignoruj "\n"
+                        numb = packet_stats.readline()
+                        #numb = packet_stats.read(1)
+                        packet_size_after=numb
+                        #numb = packet_stats.read(1)
+                        #numb = packet_stats.read(1)
+                        numb = packet_stats.readline()
+                        packet_overflow=numb
+
+                    print("Dlugosc pakietu: "+packet_size_before)
+                    print("Dlugosc po kodowaniu : "+packet_size_after)
+                    print("Nadmiar w paczce : "+packet_overflow)
+
     ResultsTable.scoresV2()
 
 else:
-    generator.generate_f(7983, True)       #parametr ilosc generowanych bitow          True/False jesli dodajemy na koncu pliku '\n'
+    generator.generate_f(7000, True)       #parametr ilosc generowanych bitow          True/False jesli dodajemy na koncu pliku '\n'
 
 
     #coders------------------------------------------------------------
