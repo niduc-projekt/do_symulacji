@@ -12,8 +12,16 @@ packet_size=64  #tylko potegi 8ki
 if(userInputData> 7):       #7000 #7983
     #zrob paczkami
     iter=0
+
+    all_packets_size = 0
+    all_packets_size_after = 0
+    all_overflow = 0;
+
     with open("AllDataGenerated.txt", 'w') as mainInput:
         with open("AllDataRecived.txt", 'w') as mainOutput:
+
+
+
             packet_size_before=0
             packet_size_after=0
             packet_overflow=0
@@ -62,11 +70,14 @@ if(userInputData> 7):       #7000 #7983
                         numb = packet_stats.readline()
                         packet_overflow=numb
 
-                    print("Dlugosc pakietu: "+packet_size_before)
-                    print("Dlugosc po kodowaniu : "+packet_size_after)
-                    print("Nadmiar w paczce : "+packet_overflow)
+                    #print("Dlugosc pakietu: "+packet_size_before)
+                    #print("Dlugosc po kodowaniu : "+packet_size_after)
+                    #print("Nadmiar w paczce : "+packet_overflow)
+                    all_packets_size +=int(packet_size_before)
+                    all_packets_size_after+=int(packet_size_after)
+                    all_overflow +=int(packet_overflow)
 
-    ResultsTable.scoresV2()
+    ResultsTable.scoresV2(all_packets_size,all_packets_size_after,all_overflow)
 
 else:
     generator.generate_f(7000, True)       #parametr ilosc generowanych bitow          True/False jesli dodajemy na koncu pliku '\n'

@@ -1,6 +1,6 @@
 #import sys
 #from typing import TextIO
-def scoresV2():
+def scoresV2(packets_before, packets_after, packets_overflow):
     dataNumber = 0
     correctData = 0
     failData = 0
@@ -21,9 +21,19 @@ def scoresV2():
 
     procOfGood = ((float(100) * float(correctData)) / float(dataNumber))
     print("Procent poprawnych bitów: ", procOfGood, " %")
-    print("Ilość niepoprawnych bitów: ", failData)
+    print("Ilość niepoprawnych bitów : ", failData)
     print("Ilość poprawnych bitów: ", correctData)
     print("Ilość wszystkich bitów: ", dataNumber)
+
+
+    print("ilosc packets before : ",packets_before)
+    print("ilosc packets after : ", packets_after)
+    print("nadmiar calosciowy : ",packets_overflow)
+
+    print('\n')
+    print("BER :",failData/packets_before)
+    print("ALFA : ", packets_after/packets_before)
+
     dataBitInNumber = 0
     with open("AllDataGenerated.txt", 'r') as input:
         while True:
@@ -110,14 +120,6 @@ def scoresPacket():
 
     with open("StatsOfOnePacket.txt",'w') as output:
 
-
-
-        #procOfGood = ((float(100) * float(correctData)) / float(dataNumber))
-        #print("Procent poprawnych bitów: ",procOfGood," %")
-        #print("Ilość niepoprawnych bitów: ",failData)
-        #print("Ilość poprawnych bitów: ",correctData)
-        #print("Ilość wszystkich bitów: ",dataNumber)
-
         dataBitInNumber = 0
         with open("DataGenerated.txt", 'r') as input:
             while True:
@@ -136,17 +138,12 @@ def scoresPacket():
                 if i!='\n':
                     codeBitNumber += 1
 
-        #print("\n")
-        print("Ilość bitów informacji przed kodowaniem: ", str(dataBitInNumber))
-        print("Ilość bitów po zakodowaniu w paczce: ", str(codeBitNumber))
-        print("Ilosc bitow nadmiarowych", str(codeBitNumber-dataBitInNumber))
-        print("Procent danych w sygnale :", str(dataBitInNumber*100/codeBitNumber)+" %")
-        print("Procent nadmiarowych bitów w sygnale", str((codeBitNumber-dataBitInNumber)*100/codeBitNumber)+" %"+"\n")
+        # print("Ilość bitów informacji przed kodowaniem: ", str(dataBitInNumber))
+        # print("Ilość bitów po zakodowaniu w paczce: ", str(codeBitNumber))
+        # print("Ilosc bitow nadmiarowych", str(codeBitNumber-dataBitInNumber))
+        # print("Procent danych w sygnale :", str(dataBitInNumber*100/codeBitNumber)+" %")
+        # print("Procent nadmiarowych bitów w sygnale", str((codeBitNumber-dataBitInNumber)*100/codeBitNumber)+" %"+"\n")
 
         output.write( str(dataBitInNumber) + "\n")   #"Ilość bitów informacji
         output.write(str(codeBitNumber) + "\n")     #"Ilość bitów po zakodowaniu: "+
         output.write(str(codeBitNumber - dataBitInNumber) + "\n")       #"Ilosc bitow nadmiarowych"+
-       # output.write("Procent danych w sygnale :"+ str(dataBitInNumber * 100 / codeBitNumber) + " %" + "\n")
-       # output.write("Procent nadmiarowych bitów w sygnale"+ str((codeBitNumber - dataBitInNumber) * 100 / codeBitNumber) + " %" + "\n")
-        #outputStorage.write(str(dataBitInNumber)+"\t"+str(codeBitNumber)+"\t"+str(codeBitNumber - dataBitInNumber)+"\t"+str(dataBitInNumber * 100 / codeBitNumber)+"\t"
-        #                    +str((codeBitNumber - dataBitInNumber) * 100 / codeBitNumber)+"\n")
